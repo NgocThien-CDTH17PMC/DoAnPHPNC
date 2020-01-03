@@ -21,8 +21,10 @@ Route::middleware('auth')->group(function(){
 			Route::post('/Them-Moi', 'LinhVucController@store')->name('xu-ly-them-moi-linh-vuc');
 			Route::get('/Cap-Nhat/{id}', 'LinhVucController@edit')->name('cap-nhat-linh-vuc');
 			Route::post('/Cap-Nhat/{id}', 'LinhVucController@update')->name('xu-ly-cap-nhat-linh-vuc');
-			Route::post('/Xoa/{id}', 'LinhVucController@destroy')->name('xoa-linh-vuc');
-
+			Route::get('/Thung-Rac', 'LinhVucController@softdeletesmenthod')->name('ds-thung-rac-linh-vuc');
+			Route::delete('/Thung-Rac/Xoa/{id}', 'LinhVucController@realdestroy')->name('xoa-linh-vuc-di');
+			Route::get('/Thung-Rac/Phuc-Hoi/{id}', 'LinhVucController@restore')->name('phuc-hoi-linh-vuc');
+			Route::delete('/Xoa/{id}', 'LinhVucController@destroy')->name('xoa-linh-vuc');
 		});
 	});
 
@@ -34,7 +36,10 @@ Route::middleware('auth')->group(function(){
 			Route::post('/Them-Moi', 'CauHoiController@store')->name('xu-ly-them-moi-cau-hoi');
 			Route::get('/Cap-Nhat/{id}', 'CauHoiController@edit')->name('cap-nhat-cau-hoi');
 			Route::post('/Cap-Nhat/{id}', 'CauHoiController@update')->name('xu-ly-cap-nhat-cau-hoi');
-			Route::post('/Xoa/{id}', 'CauHoiController@destroy')->name('xoa-cau-hoi');
+			Route::get('/Thung-Rac', 'CauHoiController@softdeletesmenthod')->name('ds-thung-rac-cau-hoi');
+			Route::delete('/Thung-Rac/Xoa/{id}', 'CauHoiController@realdestroy')->name('xoa-cau-hoi-di');
+			Route::get('/Thung-Rac/Phuc-Hoi/{id}', 'CauHoiController@restore')->name('phuc-hoi-cau-hoi');
+			Route::delete('/Xoa/{id}', 'CauHoiController@destroy')->name('xoa-cau-hoi');
 		});
 	});
 
@@ -46,6 +51,9 @@ Route::middleware('auth')->group(function(){
 			Route::post('/Them-Moi', 'GoiCreditController@store')->name('xu-ly-them-moi-goi-credit');
 			Route::get('/Cap-Nhat/{id}', 'GoiCreditController@edit')->name('cap-nhat-goi-credit');
 			Route::post('/Cap-Nhat/{id}', 'GoiCreditController@update')->name('xu-ly-cap-nhat-goi-credit');
+			Route::get('/Thung-Rac', 'GoiCreditController@softdeletesmenthod')->name('ds-thung-rac-goi');
+			Route::delete('/Thung-Rac/Xoa/{id}', 'GoiCreditController@realdestroy')->name('xoa-goi-di');
+			Route::get('/Thung-Rac/Phuc-Hoi/{id}', 'GoiCreditController@restore')->name('phuc-hoi-goi');
 			Route::post('/Xoa/{id}', 'GoiCreditController@destroy')->name('xoa-goi-credit');
 		});
 	});

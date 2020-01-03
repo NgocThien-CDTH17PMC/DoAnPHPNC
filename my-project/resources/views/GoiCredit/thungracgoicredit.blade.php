@@ -1,14 +1,8 @@
 @extends('masterpages')
 
 @section('css')
-
 <!-- Sweet Alert-->
 <link href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
-
-<!-- App css -->
-<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
 
 <!-- third party css -->
 <link href="{{ asset('assets/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
@@ -27,34 +21,23 @@
 <!-- Sweet alert init js-->
 <script src="{{ asset('assets/js/pages/sweet-alerts.init.js') }}"></script>
 
-<!-- Add Success Alert -->
-@if(session('success')) 
-<script type="text/javascript">
-    Swal.fire({
-        title: "Success!",
-        text: "{{session('success')}}",
-        type: "success"
-    })
-</script>
-@endif
-
-<!-- Update Success Alert -->
-@if(session('update'))
-<script type="text/javascript">
-    Swal.fire({
-        title: "Success!",
-        text: "{{session('update')}}",
-        type: "success"
-    })
-</script>
-@endif
-
 <!-- Delete Success Alert -->
-@if(session('delete'))
+@if(session('realdelete'))
 <script type="text/javascript">
     Swal.fire({
         title: "Success!",
-        text: "{{session('delete')}}",
+        text: "{{session('realdelete')}}",
+        type: "success"
+    })
+</script>
+@endif
+
+<!-- Restore Success Alert -->
+@if(session('restore'))
+<script type="text/javascript">
+    Swal.fire({
+        title: "Success!",
+        text: "{{session('restore')}}",
         type: "success"
     })
 </script>
@@ -78,7 +61,7 @@
 
 <!-- Datatables init -->
 <script type="text/javascript">
-    $("#goi-credit-datatable").DataTable({
+    $("#thung-rac-datatable").DataTable({
         language: {
             paginate: {
                 previous: "<i class='mdi mdi-chevron-left'>",
@@ -90,25 +73,23 @@
         }
     });
 </script>
-
 @endsection
 
 @section('main-content')
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <h4 class="page-title">Quản lý gói credit</h4>
+            <h4 class="page-title">Thùng Rác</h4>
         </div>
     </div>
-</div> 
+</div>
+
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Danh sách các gói credit</h4>
-                <a href="{{route('goi-credit.them-moi-goi-credit')}}" class="btn btn-primary waves-effect waves-light" style="margin-bottom: 10px">Thêm mới</a>
-                <a href="{{route('goi-credit.ds-thung-rac-goi')}}" class="btn btn-primary waves-effect waves-light" style="margin-bottom: 10px">Thùng Rác</a>
-                <table id="goi-credit-datatable" class="table nowrap">
+                <h4 class="header-title">Danh sách</h4>
+                <table id="thung-rac-datatable" class="table nowrap">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -120,17 +101,18 @@
                     </thead>
 
                     <tbody>
-                        @foreach($dsGoiCredit as $GoiCredit)
+                        @foreach($dsGoiCreditDaXoa as $GoiCredit)
                         <tr>
                             <td>{{ $GoiCredit->id }}</td>
                             <td>{{ $GoiCredit->ten_goi }}</td>
                             <td>{{ $GoiCredit->credit }}</td>
                             <td>{{ $GoiCredit->so_tien }}</td>
                             <td>
-                                <form action="{{ route('goi-credit.xoa-goi-credit', $GoiCredit->id) }}" method="POST">
+                                <form action="{{ route('goi-credit.xoa-goi-di', $GoiCredit->id) }}" method="POST">
+                                    @method('DELETE')
                                     @csrf
-                                    <a href="{{ route('goi-credit.cap-nhat-goi-credit' , $GoiCredit->id) }}" class="btn btn-info waves-effect waves-light">
-                                        <i class="mdi mdi-pencil"></i>
+                                    <a href="{{ route('goi-credit.phuc-hoi-goi', $GoiCredit->id) }}" class="btn btn-info waves-effect waves-light">
+                                        <i class="mdi mdi-refresh"></i>
                                     </a>
                                     <button type="submit" class="btn btn-danger waves-effect waves-light btn-info">
                                         <i class="mdi mdi-close"></i>
@@ -141,7 +123,9 @@
                         @endforeach
                     </tbody>
                 </table>
-
+                <a href="{{ route('goi-credit.ds-goi-credit') }}" class="btn btn-info waves-effect waves-light">
+                    Trở về
+                </a>
             </div> <!-- end card body-->
         </div> <!-- end card -->
     </div><!-- end col-->

@@ -104,6 +104,24 @@ class CauHoiController extends Controller
     public function destroy($id)
     {
         Cau_Hoi::where('id', $id)->delete();
-        return redirect()->route('cau-hoi.ds-cau-hoi');
+        return redirect()->route('cau-hoi.ds-cau-hoi')->with('delete','Đã cho vào thùng rác!');
+    }
+
+    public function realdestroy($id)
+    {
+        Cau_Hoi::where('id', $id)->forcedelete();
+        return redirect()->route('cau-hoi.ds-thung-rac-cau-hoi')->with('realdelete','Đã xóa thành công!');
+    }
+
+    public function restore($id)
+    {
+        Cau_Hoi::where('id', $id)->restore();
+        return redirect()->route('cau-hoi.ds-thung-rac-cau-hoi')->with('restore','Phục hồi thành công!');
+    }
+
+    public function softdeletesmenthod()
+    {
+        $dsCauHoiDaXoa = Cau_Hoi::onlyTrashed()->get();
+        return view('CauHoi.thungraccauhoi', compact('dsCauHoiDaXoa'));
     }
 }

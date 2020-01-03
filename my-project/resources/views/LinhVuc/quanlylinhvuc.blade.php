@@ -49,6 +49,17 @@
 </script>
 @endif
 
+<!-- Delete Success Alert -->
+@if(session('delete'))
+<script type="text/javascript">
+	Swal.fire({
+		title: "Success!",
+		text: "{{session('delete')}}",
+		type: "success"
+	})
+</script>
+@endif
+
 <!-- third party js -->
 <script src="{{ asset('assets/libs/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/libs/datatables/dataTables.bootstrap4.js') }}"></script>
@@ -96,6 +107,7 @@
 			<div class="card-body">
 				<h4 class="header-title">Danh sách lĩnh vực</h4>
 				<a href="{{route('linh-vuc.them-moi-linh-vuc')}}" class="btn btn-primary waves-effect waves-light" style="margin-bottom: 10px">Thêm mới</a>
+				<a href="{{route('linh-vuc.ds-thung-rac-linh-vuc')}}" class="btn btn-primary waves-effect waves-light" style="margin-bottom: 10px">Thùng Rác</a>
 				<table id="linh-vuc-datatable" class="table nowrap">
 					<thead>
 						<tr>
@@ -112,8 +124,9 @@
 							<td>{{$linhvuc->ten_linh_vuc}}</td>
 							<td>
 								<form action="{{ route('linh-vuc.xoa-linh-vuc', $linhvuc->id) }}" method="POST">
+									@method('DELETE')
 									@csrf
-									<a href="{{ route('linh-vuc.cap-nhat-linh-vuc' , $linhvuc->id) }}" class="btn btn-info waves-effect waves-light">
+									<a href="{{ route('linh-vuc.cap-nhat-linh-vuc', $linhvuc->id) }}" class="btn btn-info waves-effect waves-light">
 										<i class="mdi mdi-pencil"></i>
 									</a>
 									<button type="submit" class="btn btn-danger waves-effect waves-light btn-info" id="sa-warning">

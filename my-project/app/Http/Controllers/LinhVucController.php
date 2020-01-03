@@ -96,6 +96,24 @@ class LinhVucController extends Controller
     public function destroy($id)
     {
         Linh_Vuc::where('id', $id)->delete();
-        return redirect()->route('linh-vuc.ds-linh-vuc');
+        return redirect()->route('linh-vuc.ds-linh-vuc')->with('delete','Đã cho vào thùng rác!');
+    }
+
+    public function realdestroy($id)
+    {
+        Linh_Vuc::where('id', $id)->forcedelete();
+        return redirect()->route('linh-vuc.ds-thung-rac-linh-vuc')->with('realdelete','Đã xóa thành công!');
+    }
+
+    public function restore($id)
+    {
+        Linh_Vuc::where('id', $id)->restore();
+        return redirect()->route('linh-vuc.ds-thung-rac-linh-vuc')->with('restore','Phục hồi thành công!');
+    }
+
+    public function softdeletesmenthod()
+    {
+        $dsLinhVucDaXoa = Linh_Vuc::onlyTrashed()->get();
+        return view('LinhVuc.thungraclinhvuc', compact('dsLinhVucDaXoa'));
     }
 }

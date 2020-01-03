@@ -94,6 +94,24 @@ class GoiCreditController extends Controller
     public function destroy($id)
     {
         Goi_Credit::where('id', $id)->delete();
-        return redirect()->route('goi-credit.ds-goi-credit');
+        return redirect()->route('goi-credit.ds-goi-credit')->with('delete','Đã cho vào thùng rác!');
+    }
+
+    public function realdestroy($id)
+    {
+        Goi_Credit::where('id', $id)->forcedelete();
+        return redirect()->route('goi-credit.ds-thung-rac-goi')->with('realdelete','Đã xóa thành công!');
+    }
+
+    public function restore($id)
+    {
+        Goi_Credit::where('id', $id)->restore();
+        return redirect()->route('goi-credit.ds-thung-rac-goi')->with('restore','Phục hồi thành công!');
+    }
+
+    public function softdeletesmenthod()
+    {
+        $dsGoiCreditDaXoa = Goi_Credit::onlyTrashed()->get();
+        return view('GoiCredit.thungracgoicredit', compact('dsGoiCreditDaXoa'));
     }
 }
